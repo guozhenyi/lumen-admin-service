@@ -3,11 +3,14 @@
 namespace App\Exceptions;
 
 use Exception;
+use Illuminate\Support\Str;
+use Barryvdh\Cors\CorsService;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Laravel\Lumen\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -41,10 +44,104 @@ class Handler extends ExceptionHandler
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Exception  $e
-     * @return \Illuminate\Http\Response
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function render($request, Exception $e)
     {
-        return parent::render($request, $e);
+//        return parent::render($request, $e);
+
+        if ($e instanceof ModelNotFoundException) {
+            $e = new NotFoundHttpException($e->getMessage(), $e);
+        }
+
+        // 本地应用环境，打印Exception Stack信息
+        if (app()->environment('local')) {
+            return parent::render($request, $e);
+        }
+
+        $code = $this->getCode($e);
+        $message = $this->getMessage($e);
+
+        if ($e instanceof \PDOException && !env('APP_DEBUG', false)) {
+            $code = 500;
+            $message = 'Db Service Exception';
+        }
+
+        if ($e instanceof HttpException) {
+            $response = response()->json([
+                'code' => $code,
+                'data' => ['msg' => ''],
+                'message' => $message
+            ], $code, [], JSON_UNESCAPED_UNICODE);
+        } elseif ($e instanceof ValidationException) {
+            $response = response()->json([
+                'code' => $code,
+                'data' => [
+                    'msg' => $e->validator->getMessageBag()
+                ],
+                'message' => $message
+            ], 200, [], JSON_UNESCAPED_UNICODE);
+        } else {
+            $response = response()->json([
+                'code' => $code,
+                'data' => ['msg' => ''],
+                'message' => $message
+            ], 200, [], JSON_UNESCAPED_UNICODE);
+        }
+
+        $cors = new CorsService(config('cors'));
+
+        if ($cors->isCorsRequest($request)) {
+            return $cors->addActualRequestHeaders($response, $request);
+        }
+
+        return $response;
     }
+
+
+    /**
+     * 获得Exception错误码
+     *
+     * @param \Exception $e
+     * @return int|mixed
+     *
+     * @author guozhenyi
+     * @date 2019-03-27
+     */
+    public function getCode(Exception $e)
+    {
+        if ($e instanceof HttpException) {
+            return $e->getStatusCode();
+        }
+
+        if ($e->getCode() != 200) {
+            return $e->getCode();
+        }
+
+        return 500;
+    }
+
+
+    /**
+     * 获得Exception错误信息
+     *
+     * @param \Exception $e
+     * @return string
+     *
+     * @author guozhenyi
+     * @date 2019-03-27
+     */
+    public function getMessage(Exception $e)
+    {
+        if (empty($e->getMessage())) {
+            $className = preg_replace('/(?:Http)Exception/', '', get_class($e));
+
+            return Str::snake(substr($className, strrpos($className, '\\') + 1));
+        }
+
+        return $e->getMessage();
+    }
+
+
+
 }
