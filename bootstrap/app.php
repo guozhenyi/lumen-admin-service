@@ -96,6 +96,7 @@ $app->middleware([
  * 自定义服务  guozhenyi 2019-03-27
  */
 $app->register(Barryvdh\Cors\ServiceProvider::class);
+$app->register(Illuminate\Redis\RedisServiceProvider::class);
 
 
 /*
