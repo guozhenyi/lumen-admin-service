@@ -82,6 +82,17 @@ $app->singleton(
 // $app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
 
+
+/*
+ * 配置按天记录日志
+ */
+$app->configureMonologUsing(function(Monolog\Logger $monoLog) use ($app){
+    return $monoLog->pushHandler(
+        new Monolog\Handler\RotatingFileHandler($app->storagePath().'/logs/lumen.log')
+    );
+});
+
+
 /*
 |--------------------------------------------------------------------------
 | Load The Application Routes
