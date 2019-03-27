@@ -27,6 +27,13 @@ $app = new Laravel\Lumen\Application(
 
 // $app->withEloquent();
 
+
+/*
+ * 载入配置文件 guozhenyi 2019-03-27
+ */
+$app->configure('cors');
+
+
 /*
 |--------------------------------------------------------------------------
 | Register Container Bindings
@@ -59,9 +66,12 @@ $app->singleton(
 |
 */
 
-// $app->middleware([
-//    App\Http\Middleware\ExampleMiddleware::class
-// ]);
+/*
+ * 全局中间件 guozhenyi 2019-03-27
+ */
+$app->middleware([
+    \Barryvdh\Cors\HandleCors::class,
+]);
 
 // $app->routeMiddleware([
 //     'auth' => App\Http\Middleware\Authenticate::class,
@@ -82,9 +92,14 @@ $app->singleton(
 // $app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
 
+/*
+ * 自定义服务  guozhenyi 2019-03-27
+ */
+$app->register(Barryvdh\Cors\ServiceProvider::class);
+
 
 /*
- * 配置按天记录日志
+ * 配置按天记录日志  guozhenyi 2019-03-27
  */
 $app->configureMonologUsing(function(Monolog\Logger $monoLog) use ($app){
     return $monoLog->pushHandler(
