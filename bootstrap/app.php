@@ -29,7 +29,9 @@ $app = new Laravel\Lumen\Application(
 
 
 /*
- * 载入配置文件 guozhenyi 2019-03-27
+ * 载入配置文件
+ * @author guozhenyi
+ * @date 2019-03-27
  */
 $app->configure('cors');
 
@@ -67,10 +69,13 @@ $app->singleton(
 */
 
 /*
- * 全局中间件 guozhenyi 2019-03-27
+ * 全局中间件
+ * @author guozhenyi
+ * @date 2019-03-27
  */
 $app->middleware([
     \Barryvdh\Cors\HandleCors::class,
+    \App\Http\Middleware\BeforeMiddleware::class,
 ]);
 
 // $app->routeMiddleware([
@@ -93,18 +98,23 @@ $app->middleware([
 // $app->register(App\Providers\EventServiceProvider::class);
 
 /*
- * 自定义服务  guozhenyi 2019-03-27
+ * 自定义服务
+ * @author guozhenyi
+ * @date 2019-03-27
  */
 $app->register(Barryvdh\Cors\ServiceProvider::class);
 $app->register(Illuminate\Redis\RedisServiceProvider::class);
 
 
 /*
- * 配置按天记录日志  guozhenyi 2019-03-27
+ * 自定义配置日志按天记录
+ * @author guozhenyi
+ * @date 2019-03-27
  */
 $app->configureMonologUsing(function(Monolog\Logger $monoLog) use ($app){
     return $monoLog->pushHandler(
-        new Monolog\Handler\RotatingFileHandler($app->storagePath().'/logs/lumen.log')
+        (new Monolog\Handler\RotatingFileHandler($app->storagePath().'/logs/lumen.log'))
+            ->setFormatter(new Monolog\Formatter\LineFormatter(null, null, true, true))
     );
 });
 
