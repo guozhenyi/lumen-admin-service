@@ -44,7 +44,10 @@ class Handler extends ExceptionHandler
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Exception  $e
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return \Illuminate\Http\Response | \Symfony\Component\HttpFoundation\Response
+     *
+     * @author guozhenyi
+     * @date 2019-05-10
      */
     public function render($request, Exception $e)
     {
@@ -111,11 +114,11 @@ class Handler extends ExceptionHandler
     public function getCode(Exception $e)
     {
         if ($e instanceof HttpException) {
-            return $e->getStatusCode();
+            return (int)$e->getStatusCode();
         }
 
-        if ($e->getCode() != 200) {
-            return $e->getCode();
+        if ($e->getCode() != 0 && $e->getCode() != 200) {
+            return (int)$e->getCode();
         }
 
         return 500;
