@@ -34,6 +34,7 @@ $app = new Laravel\Lumen\Application(
  * @date 2019-03-27
  */
 $app->configure('cors');
+$app->configure('database');
 
 
 /*
@@ -78,9 +79,11 @@ $app->middleware([
     \App\Http\Middleware\BeforeMiddleware::class,
 ]);
 
-// $app->routeMiddleware([
+ $app->routeMiddleware([
 //     'auth' => App\Http\Middleware\Authenticate::class,
-// ]);
+     'auth.must' => App\Http\Middleware\MustAuthMiddleware::class,
+     'auth.should' => App\Http\Middleware\ShouldAuthMiddleware::class,
+ ]);
 
 /*
 |--------------------------------------------------------------------------

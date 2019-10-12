@@ -19,7 +19,7 @@ class Redis
      */
     public function keyCaptcha($device)
     {
-        return 'app:captcha:d_' . $device;
+        return 'dpAdmin:captcha:d_' . $device;
     }
 
 
@@ -31,7 +31,7 @@ class Redis
      */
     public function keyTokenToPayload($token)
     {
-        return 'app:token:payload:t_' . $token;
+        return 'dpAdmin:token:payload:t_' . $token;
     }
 
 
@@ -43,7 +43,7 @@ class Redis
      */
     public function keyUserIdToDevice($user_id)
     {
-        return 'app:user:device:u_' . $user_id;
+        return 'dpAdmin:user:device:u_' . $user_id;
     }
 
 
@@ -55,7 +55,7 @@ class Redis
      */
     public function keyBlacklistTokenBool($token)
     {
-        return 'app:token:blackExist:t_' . $token;
+        return 'dpAdmin:token:blackExist:t_' . $token;
     }
 
 
@@ -67,7 +67,7 @@ class Redis
      */
     public function keyBlacklistTokenData($token)
     {
-        return 'app:token:blacklist:t_' . $token;
+        return 'dpAdmin:token:blacklist:t_' . $token;
     }
 
     /**
@@ -78,7 +78,7 @@ class Redis
      */
     public function keyUserStatus($user_id)
     {
-        return 'app:user:status:u_' . $user_id;
+        return 'dpAdmin:user:status:u_' . $user_id;
     }
 
 
