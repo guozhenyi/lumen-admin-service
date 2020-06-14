@@ -64,6 +64,50 @@ class Util
 
 
     /**
+     * 用户默认头像
+     *
+     * @return string
+     */
+    public static function defaultAvatarUrl()
+    {
+        $avatar = env('DEFAULT_AVATAR_URL');
+
+        if (empty($avatar)) {
+            throw new \UnexpectedValueException('未配置默认头像', 500);
+        }
+
+        return $avatar;
+    }
+
+
+    /**
+     * 是否默认头像
+     *
+     * @param $avatar
+     * @return bool
+     */
+    public static function verifyAvatar($avatar)
+    {
+        if ($avatar == self::defaultAvatarUrl()) {
+            return true;
+        }
+
+        return false;
+    }
+
+
+    /**
+     * 默认昵称
+     *
+     * @return string
+     */
+    public static function defaultNickname()
+    {
+        return 'app' . Util::randomNum(mt_rand(5, 8));
+    }
+
+
+    /**
      * 随机数
      *
      * @param int $min
