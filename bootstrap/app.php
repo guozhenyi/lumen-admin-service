@@ -74,7 +74,7 @@ $app->singleton(
  * @date 2019-03-27
  */
 $app->middleware([
-    \Fruitcake\Cors\HandleCors::class,
+    \Barryvdh\Cors\HandleCors::class,
     \App\Http\Middleware\BeforeMiddleware::class,
 ]);
 
@@ -102,7 +102,7 @@ $app->middleware([
  * @author guozhenyi
  * @date 2019-03-27
  */
-$app->register(Fruitcake\Cors\ServiceProvider::class);
+$app->register(Barryvdh\Cors\ServiceProvider::class);
 $app->register(Illuminate\Redis\RedisServiceProvider::class);
 
 
