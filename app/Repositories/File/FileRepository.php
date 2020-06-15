@@ -99,8 +99,8 @@ class FileRepository
         file_put_contents($tmpFile, base64_decode($matches[2]));
 
         $originName = 'base64'; // 原始文件名
-        if (isset($dict['origin_name'])) {
-            $originName = $dict['origin_name'];
+        if (isset($dict['name'])) {
+            $originName = $dict['name'];
         }
 
         $sfyFile = new SymfonyFile($tmpFile);
