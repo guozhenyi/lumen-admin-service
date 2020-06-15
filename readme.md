@@ -1,21 +1,32 @@
-# Lumen PHP Framework
+# 通用后台管理服务端
 
-[![Build Status](https://travis-ci.org/laravel/lumen-framework.svg)](https://travis-ci.org/laravel/lumen-framework)
-[![Total Downloads](https://poser.pugx.org/laravel/lumen-framework/d/total.svg)](https://packagist.org/packages/laravel/lumen-framework)
-[![Latest Stable Version](https://poser.pugx.org/laravel/lumen-framework/v/stable.svg)](https://packagist.org/packages/laravel/lumen-framework)
-[![Latest Unstable Version](https://poser.pugx.org/laravel/lumen-framework/v/unstable.svg)](https://packagist.org/packages/laravel/lumen-framework)
-[![License](https://poser.pugx.org/laravel/lumen-framework/license.svg)](https://packagist.org/packages/laravel/lumen-framework)
+接口对应文档地址： 
 
-Laravel Lumen is a stunningly fast PHP micro-framework for building web applications with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Lumen attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as routing, database abstraction, queueing, and caching.
+<https://www.showdoc.cc/868693074265637?page_id=4687471993853335>
 
-## Official Documentation
+## composer 国内镜像
 
-Documentation for the framework can be found on the [Lumen website](http://lumen.laravel.com/docs).
+[阿里云composer镜像站](https://developer.aliyun.com/composer)
 
-## Security Vulnerabilities
+## 安装步骤
 
-If you discover a security vulnerability within Lumen, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+    git clone https://github.com/guozhenyi/lumen-admin-service.git
 
-## License
+复制配置文件
 
-The Lumen framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
+    php -r "copy('.env.example', '.env');"
+
+在根目录执行以下命令获得随机值，填充到.env的APP_KEY字段
+
+    php artisan key:generate
+
+安装依赖包
+
+    composer install --prefer-dist
+
+如果要更新Lumen的安全修复小版本，可继续执行
+
+    composer update --prefer-dist
+
+
+

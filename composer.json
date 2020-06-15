@@ -10,6 +10,7 @@
         "vlucas/phpdotenv": "~2.2",
         "illuminate/redis": "5.5.*",
         "fruitcake/laravel-cors": "^0.9.2",
+        "gregwar/captcha": "1.*",
         "aliyuncs/oss-sdk-php": "^2.3"
     },
     "require-dev": {

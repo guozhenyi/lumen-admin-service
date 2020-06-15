@@ -2,9 +2,9 @@
 
 namespace App\Exceptions;
 
-class KxTokenExpiredException extends \RuntimeException
+class XTokenExpiredException extends \RuntimeException
 {
-    protected $code = 401;
+    protected $code = 1001;
 
     protected $message = 'Token Expired';
 

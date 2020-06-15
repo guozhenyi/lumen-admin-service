@@ -57,4 +57,8 @@ return [
      * Sets the Access-Control-Allow-Credentials header.
      */
     'supports_credentials' => false,
+
+
+    'hosts' => [],
+
 ];
