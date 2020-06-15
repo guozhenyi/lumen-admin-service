@@ -4,8 +4,8 @@ namespace App\Repositories\File;
 
 use App\Support\Env;
 use App\Models\main\Asset;
-//use OSS\Core\OssException;
-//use App\Services\AliOssService;
+use OSS\Core\OssException;
+use App\Services\AliOssService;
 use App\Exceptions\XClientException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
@@ -38,20 +38,22 @@ class FileRepository
 
         $size = (int)$upFile->getClientSize();
 
-        $data = [
-            'url' => ''
-        ];
-
         $path = $this->prefix . '/' . date('Y') . '/' . date('m');
 
         $saveDir = Asset::model()->checkDir(Env::fileDir($this->prefix) . $path);
 
         $name = Asset::model()->assignFileName() . '.' . $ext;
 
-        // 保存文件
-        $upFile->move($saveDir, $name);
+        // 判断阿里云OSS是否开启
+        if (Env::isAliyunOssUsable()) {
+            $path_name = trim($path) . '/' . $name;
+            $url = $this->uploadOss($upFile->getPathname(), $path_name);
+        } else {
+            $url = Env::fileDomainUrl() . $path . '/' . $name;
+        }
 
-        $url = Env::fileDomainUrl() . $path . '/' . $name;
+        // 本地服务器保存文件
+        $upFile->move($saveDir, $name);
 
         Asset::model()->store([
             'md5' => $md5,
@@ -62,9 +64,9 @@ class FileRepository
             'size' => $size,
         ]);
 
-        $data['url'] = $url;
-
-        return $data;
+        return [
+            'url' => $url,
+        ];
     }
 
 
@@ -72,8 +74,8 @@ class FileRepository
      * 上传Blob式的文件
      *
      * @param string $fileEncodeString
-     * @param string $server_url
      * @param array $dict
+     * @throws \Exception
      * @return array
      */
     public function uploadBlob($fileEncodeString, array $dict = [])
@@ -107,17 +109,20 @@ class FileRepository
 
         $size = (int)$sfyFile->getSize();
 
-        $data = [
-            'url' => ''
-        ];
-
         $path = $this->prefix . '/' . date('Y') . '/' . date('m');
 
         $saveDir = Asset::model()->checkDir(Env::fileDir($this->prefix) . $path);
 
-        $sfyFile->move($saveDir, $name);
+        // 判断阿里云OSS是否开启
+        if (Env::isAliyunOssUsable()) {
+            $path_name = trim($path) . '/' . $name;
+            $url = $this->uploadOss($sfyFile->getPathname(), $path_name);
+        } else {
+            $url = Env::fileDomainUrl() . $path . '/' . $name;
+        }
 
-        $url = Env::fileDomainUrl() . $path . '/' . $name;
+        // 本地服务器保存文件
+        $sfyFile->move($saveDir, $name);
 
         Asset::model()->store([
             'md5' => $md5,
@@ -128,9 +133,30 @@ class FileRepository
             'size' => $size,
         ]);
 
-        $data['url'] = $url;
+        return [
+            'url' => $url,
+        ];
+    }
 
-        return $data;
+
+    /**
+     * @param $file_path
+     * @param $path_name
+     * @return string
+     * @throws \Exception
+     *
+     * @author gzy<gzyonline@hotmail.com>
+     * @date 2019-07-26
+     */
+    protected function uploadOss($file_path, $path_name)
+    {
+        $res = AliOssService::instance()->upload($file_path, $path_name);
+
+        if (!isset($res['oss_url'])) {
+            throw new XServerException('未获得OSS链接地址');
+        }
+
+        return $res['oss_url'];
     }
 
 

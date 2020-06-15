@@ -59,7 +59,7 @@ class Env
      *
      * @return bool
      */
-    public function isAliyunOssUsable()
+    public static function isAliyunOssUsable()
     {
         $switch = env('ALIYUN_OSS_ACTIVE', '');
 
@@ -71,6 +71,53 @@ class Env
     }
 
 
+    /**
+     * 获得OSS配置信息
+     *
+     * @param null $key
+     * @param string $default
+     * @return array|string|mixed
+     */
+    public static function ossConf($key = null, $default = '')
+    {
+        $app_key = env('ALIYUN_OSS_KEY', '');
+        $app_secret = env('ALIYUN_OSS_SECRET', '');
+        $end_point = env('ALIYUN_OSS_ENDPOINT', '');
+        $bucket = env('ALIYUN_OSS_BUCKET', '');
+
+        $data = [
+            'app_key' => $app_key,
+            'app_secret' => $app_secret,
+            'end_point' => $end_point,
+            'bucket' => $bucket
+        ];
+
+        if (!is_null($key)) {
+            return isset($data[$key]) ? $data[$key] : $default;
+        }
+
+        return $data;
+    }
+
+
+    /**
+     * 获得OSS CDN 域名
+     *
+     * @param null $default
+     * @return mixed|null
+     */
+    public static function ossCdnUrl($default = null)
+    {
+        $url = env('OSS_CDN_URL', '');
+
+        if (empty($url)) {
+            return $default;
+        }
+
+        $url = rtrim($url, '/') . '/';
+
+        return $url;
+    }
 
 
 }
