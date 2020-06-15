@@ -5,16 +5,10 @@ namespace App\Models\Main;
 use App\Models\Util;
 use App\Exceptions\XClientException;
 
-class User
+class User extends Base
 {
 
-    public static function model()
-    {
-        return new static;
-    }
-
-
-    const TABLE_NAME = 'user';
+    protected $table = 'user';
 
 
     /*
@@ -22,15 +16,6 @@ class User
      */
     const STATUS_ACTIVE = 1;  // 正常
     const STATUS_DISABLE = 2; // 禁用
-
-
-    /**
-     * @return \Illuminate\Database\Query\Builder
-     */
-    public function getQuery()
-    {
-        return Util::mainDb()->table(self::TABLE_NAME);
-    }
 
 
 

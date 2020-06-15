@@ -2,26 +2,12 @@
 
 namespace App\Models\Main;
 
-use App\Models\Param;
 use App\Models\Util;
 
-class Asset
+class Asset extends Base
 {
 
-    public static function model()
-    {
-        return new static;
-    }
-
-    const TABLE_NAME = 'asset';
-
-    /**
-     * @return \Illuminate\Database\Query\Builder
-     */
-    protected function getQuery()
-    {
-        return Util::mainDb()->table(self::TABLE_NAME);
-    }
+    protected $table = 'asset';
 
 
     /**
