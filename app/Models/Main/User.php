@@ -3,7 +3,7 @@
 namespace App\Models\Main;
 
 use App\Models\Util;
-use App\Exceptions\KxClientException;
+use App\Exceptions\XClientException;
 
 class User
 {
@@ -45,7 +45,7 @@ class User
     {
         // 做必要验证
         if (!isset($aryDict['mobile']) || !Util::verifyMobile($mobile)) {
-            throw new KxClientException('手机号不正确');
+            throw new XClientException('手机号不正确');
         }
 
         $aryAttr = [
@@ -145,7 +145,7 @@ class User
             ->first();
 
         if (is_null($obj)) {
-            throw new KxClientException($error);
+            throw new XClientException($error);
         }
 
         return $obj;
@@ -166,7 +166,7 @@ class User
             ->first();
 
         if (is_null($obj)) {
-            throw new KxClientException($error);
+            throw new XClientException($error);
         }
 
         return $obj;
