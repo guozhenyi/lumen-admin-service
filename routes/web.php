@@ -14,5 +14,12 @@
 /** @var \Laravel\Lumen\Routing\Router $router */
 
 $router->get('/', function () use ($router) {
-    return $router->app->version();
+    return response()->json(['code'=> 200]);
 });
+
+// 文件资源
+$router->group(['namespace' => 'File'], function () use ($router) {
+    $router->post('v1/uploads', 'FileController@upload'); //上传图片
+});
+
+
