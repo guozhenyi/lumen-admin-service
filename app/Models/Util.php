@@ -132,6 +132,12 @@ class Util
     }
 
 
+    public static function randomLetter($length = 2)
+    {
+        return substr(str_shuffle(str_repeat('ABCDEFGHJKLMNPQRSTUVWXYZ', $length)), 0, $length);
+    }
+
+
     /**
      * 随机字符串 编码
      *
@@ -161,6 +167,22 @@ class Util
     public static function verifyMobile($mobile)
     {
         if (strlen($mobile) == 11 && preg_match('/^1\d{10}$/', $mobile)) {
+            return true;
+        }
+
+        return false;
+    }
+
+
+    /**
+     * 验证邮箱
+     *
+     * @param $email
+     * @return bool
+     */
+    public function verifyEmail($email)
+    {
+        if (!empty($email) && preg_match('/^[\w-.]+@[A-Za-z0-9]+\.[\w.]+$/', $email)) {
             return true;
         }
 
