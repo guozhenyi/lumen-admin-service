@@ -78,4 +78,18 @@ class Redis
     }
 
 
+    /**
+     * 角色权限映射接口集合
+     *
+     * @param $role_id
+     * @return string
+     */
+    public static function keySysRoleRouteApiSet($role_id)
+    {
+        return 'app:role:RouteApiSet:r_' . $role_id;
+    }
+
+
+
+
 }

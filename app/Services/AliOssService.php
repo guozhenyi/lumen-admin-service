@@ -85,5 +85,48 @@ class AliOssService
     }
 
 
+    /**
+     * @param $from_bucket
+     * @param $from_path_name
+     * @param $to_path_name
+     * @return null
+     * @throws \OSS\Core\OssException
+     * @date 2019-08-05
+     */
+    public function copyOssObject($from_bucket, $from_path_name, $to_path_name)
+    {
+        $conf = Env::ossConf();
+
+        $client = new OssClient($conf['app_key'], $conf['app_secret'], $conf['end_point']);
+
+        // 设置建立连接的超时时间，单位秒，默认10秒。
+        $client->setConnectTimeout(10);
+
+        // 设置Socket层传输数据的超时时间，单位秒，默认5184000秒。
+        $client->setTimeout(3600);
+
+        $res = $client->copyObject($from_bucket, $from_path_name, Env::ossConf('bucket'), $to_path_name);
+
+        $ossCdnHost = Env::ossCdnUrl('');
+
+        // https://ceshi.oss-cn-shenzhen.aliyuncs.com/b0add5d2ec7d725.jpg
+
+        if (!is_array($res)) {
+            $res = (array)$res;
+        }
+
+        if (!empty($ossCdnHost)) {
+            $res['oss_url'] = $ossCdnHost . $to_path_name;
+        } elseif (preg_match('/^(https?:\/\/)([^\/]*)/i', $conf['end_point'], $matches)) {
+            $schema = $matches[1];
+            $host = Env::ossConf('bucket') . '.' . trim($matches[2], '/');
+
+            $res['oss_url'] = $schema . $host . '/' . $to_path_name;
+        }
+
+        return $res;
+    }
+
+
 
 }

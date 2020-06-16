@@ -14,14 +14,16 @@ class CreateSysUserActionLogTable extends Migration
     public function up()
     {
         Schema::create('sys_user_action_log', function (Blueprint $table) {
-            $table->comment = '系统用户日志';
+            $table->comment = '系统用户操作日志';
             $table->charset = 'utf8mb4';
             $table->collation = 'utf8mb4_general_ci';
             $table->engine = 'InnoDB';
 
             $table->increments('id');
 
-            $table->unsignedInteger('user_id')->comment('系统用户ID');
+            $table->unsignedInteger('editor_id')->comment('操作者ID');
+
+            $table->string('editor_name', 40)->default('')->comment('操作者姓名');
 
             $table->string('describe')->comment('描述');
 

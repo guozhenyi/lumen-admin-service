@@ -2,6 +2,7 @@
 
 namespace App\Models\Main;
 
+use App\Models\Util;
 use App\Exceptions\XClientException;
 
 class SysUser extends Base
@@ -14,7 +15,7 @@ class SysUser extends Base
      * 状态
      */
     const STATUS_ACTIVE = 1;  // 正常
-    const STATUS_STOP = 2;    // 停用
+    const STATUS_DISABLE = 2; // 停用
 
 
     /**
@@ -30,14 +31,15 @@ class SysUser extends Base
             'username' => '',
             'password' => '',
             'role_id' => 0,
-            'nickname' => '',
+            'name' => '',
             'avatar' => '',
+            'mobile' => '',
             'gender' => 0,
         ];
 
         foreach ($aryDict as $k => $value) {
             if (array_key_exists($k, $aryAttr)) {
-                $aryAttr[$k] = $this->handleParamValue($value);
+                $aryAttr[$k] = Util::handleParamValue($value);
             }
         }
 
@@ -56,8 +58,9 @@ class SysUser extends Base
     {
         $fields = [
             'password',
-            'nickname',
+            'name',
             'avatar',
+            'mobile',
             'gender',
         ];
 
@@ -76,20 +79,6 @@ class SysUser extends Base
         $this->getQuery()
             ->where('id', $user_id)
             ->update($aryAttr);
-    }
-
-    /**
-     * @param $user_id
-     * @return bool
-     *
-     * @author gzy<guozhenyi@kuaixun.tech>
-     * @date 2018-06-12
-     */
-    public function checkExist($user_id)
-    {
-        return $this->getQuery()
-            ->where('id', $user_id)
-            ->exists();
     }
 
 

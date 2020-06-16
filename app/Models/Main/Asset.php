@@ -39,10 +39,10 @@ class Asset extends Base
     }
 
 
-    public function getFileByMediaId($media_code)
+    public function getFileByCode($code)
     {
         $obj = $this->getQuery()
-            ->where('code', $media_code)
+            ->where('md5', $code)
             ->first();
 
         if (is_null($obj)) {

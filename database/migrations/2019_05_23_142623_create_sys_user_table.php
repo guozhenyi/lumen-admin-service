@@ -25,7 +25,7 @@ class CreateSysUserTable extends Migration
 
             $table->integer('role_id')->default(0)->comment('角色ID');
 
-            $table->string('name', 50)->comment('昵称');
+            $table->string('name', 50)->comment('姓名');
             $table->string('avatar')->comment('头像');
             $table->string('mobile', 11)->default('')->comment('手机号');
 

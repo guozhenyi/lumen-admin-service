@@ -39,14 +39,6 @@ class SysUserActionLog extends Base
     }
 
 
-    public function signOutDescribe($sysName)
-    {
-        $time = date('H:i:s');
-
-        return sprintf('%s在[%s]退出登录。', $sysName, $time);
-    }
-
-
     public function addSignOutLog($sys_user_id)
     {
         $sysUser = SysUser::model()->getByUserId($sys_user_id);
@@ -56,6 +48,14 @@ class SysUserActionLog extends Base
             'editor_name' => $sysUser->username,
             'describe' => $this->signOutDescribe($sysUser->username),
         ]);
+    }
+
+
+    public function signOutDescribe($sysName)
+    {
+        $time = date('H:i:s');
+
+        return sprintf('%s在[%s]退出登录。', $sysName, $time);
     }
 
 

@@ -24,7 +24,7 @@ class CreateDeviceTable extends Migration
             $table->string('device', 20)->comment('设备号');
             $table->string('ipv4', 40)->default('')->comment('IP地址');
 
-            $table->timestamp('created_at')->useCurrent()->comment('创建时间');
+            $table->timestamp('created_at')->useCurrent();
 
             $table->unique('device');
         });

@@ -115,7 +115,7 @@ class AuthRepository
 
         return [
             'user' => $this->formatUserData($user_id),
-//            'menuList' => $this->formatMenu($user_id),
+            'menuList' => $this->formatMenu($user_id),
         ];
     }
 
@@ -197,7 +197,7 @@ class AuthRepository
     public function formatMenu($user_id)
     {
         if (SysMenu::model()->isEmptyMenu()) {
-            $this->initMenu();
+            SysMenu::model()->initMenu();
         }
 
         $user = SysUser::model()->getByUserId($user_id);
@@ -220,37 +220,6 @@ class AuthRepository
     }
 
 
-    protected function initMenu()
-    {
-        $menu1 = [
-            'id' => 1,
-            'parent_id' => 0,
-            'name' => '设置',
-            'type' => 1,
-            'route_api' => '',
-            'route_web' => '',
-            'seq_order' => 1,
-        ];
-        $menu2 = [
-            'id' => 2,
-            'parent_id' => 1,
-            'name' => '菜单管理',
-            'type' => 2,
-            'route_api' => '',
-            'route_web' => '/setUp/Menu',
-            'seq_order' => 2,
-        ];
-
-        SysMenu::model()->store($menu1);
-        SysMenu::model()->store($menu2);
-
-//        unset($menu1['parent_id']);
-//        unset($menu2['parent_id']);
-//        $menu2['data'] = [];
-//        $menu1['data'][] = $menu2;
-//
-//        return [$menu1];
-    }
 
 
 
