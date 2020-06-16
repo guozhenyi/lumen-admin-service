@@ -2,7 +2,7 @@
 
 namespace App\Models\Main;
 
-use App\Models\Util;
+use App\Support\Util;
 use App\Exceptions\XServerException;
 
 class SysDevice extends Base

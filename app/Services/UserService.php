@@ -2,8 +2,7 @@
 
 namespace App\Services;
 
-use App\Models\Base;
-use App\Models\Util;
+use App\Support\Util;
 use App\Models\Redis;
 use App\Models\Main\SysToken;
 use App\Exceptions\XJwtException;

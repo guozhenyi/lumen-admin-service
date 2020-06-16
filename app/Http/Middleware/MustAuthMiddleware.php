@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use App\Models\Redis;
-use App\Models\Util;
+use App\Support\Util;
 use Illuminate\Http\Request;
 use App\Models\Main\SysToken;
 use App\Services\JwtService;

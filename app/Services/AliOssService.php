@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Models\Util;
+use App\Support\Util;
 use App\Support\Env;
 use OSS\OssClient;
 use OSS\Core\OssException;

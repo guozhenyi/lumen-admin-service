@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Support;
 
 
 class Util
@@ -103,7 +103,7 @@ class Util
      */
     public static function defaultNickname()
     {
-        return 'app' . Util::randomNum(mt_rand(5, 8));
+        return 'app' . self::randomNum(mt_rand(5, 8));
     }
 
 
