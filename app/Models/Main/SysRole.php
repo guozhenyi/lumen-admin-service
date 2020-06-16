@@ -2,7 +2,7 @@
 
 namespace App\Models\Main;
 
-use App\Models\Redis;
+use App\Support\Redis;
 use App\Support\Util;
 use App\Exceptions\XClientException;
 

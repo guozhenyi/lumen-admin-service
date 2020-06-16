@@ -3,7 +3,7 @@
 namespace App\Models\Main;
 
 use App\Support\Util;
-use App\Models\Redis;
+use App\Support\Redis;
 use App\Exceptions\XServerException;
 
 class SysTokenBlacklist extends Base

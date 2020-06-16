@@ -3,7 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use App\Models\Redis;
+use App\Support\Redis;
 use App\Support\Util;
 use Illuminate\Http\Request;
 use App\Models\Main\SysToken;
