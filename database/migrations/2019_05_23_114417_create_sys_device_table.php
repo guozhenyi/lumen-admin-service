@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateDeviceTable extends Migration
+class CreateSysDeviceTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateDeviceTable extends Migration
      */
     public function up()
     {
-        Schema::create('device', function (Blueprint $table) {
+        Schema::create('sys_device', function (Blueprint $table) {
             $table->comment = '设备号';
             $table->charset = 'utf8mb4';
             $table->collation = 'utf8mb4_general_ci';
@@ -37,6 +37,6 @@ class CreateDeviceTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('device');
+        Schema::dropIfExists('sys_device');
     }
 }

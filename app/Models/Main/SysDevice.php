@@ -5,10 +5,10 @@ namespace App\Models\Main;
 use App\Models\Util;
 use App\Exceptions\XServerException;
 
-class Device extends Base
+class SysDevice extends Base
 {
 
-    protected $table = 'device';
+    protected $table = 'sys_device';
 
 
     /**

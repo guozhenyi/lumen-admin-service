@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\File;
 
-use App\Models\Main\Asset;
+use App\Models\Main\SysAsset;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Repositories\File\FileRepository;

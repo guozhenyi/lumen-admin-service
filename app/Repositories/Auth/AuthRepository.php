@@ -2,7 +2,7 @@
 
 namespace App\Repositories\Auth;
 
-use App\Models\Main\Device;
+use App\Models\Main\SysDevice;
 use App\Models\Main\SysMenu;
 use App\Models\Main\SysRole;
 use App\Models\Main\SysUser;
@@ -24,12 +24,12 @@ class AuthRepository
     {
         do {
             $device = str_random(20);
-            if (!Device::model()->checkExistByDeviceId($device)) {
+            if (!SysDevice::model()->checkExistByDeviceId($device)) {
                 break;
             }
         } while (true);
 
-        Device::model()->store([
+        SysDevice::model()->store([
             'device' => $device,
             'ip' => X_CLIENT_IP,
         ]);

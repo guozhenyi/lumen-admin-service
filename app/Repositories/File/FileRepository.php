@@ -3,7 +3,7 @@
 namespace App\Repositories\File;
 
 use App\Support\Env;
-use App\Models\main\Asset;
+use App\Models\main\SysAsset;
 use OSS\Core\OssException;
 use App\Services\AliOssService;
 use App\Exceptions\XClientException;
@@ -34,15 +34,15 @@ class FileRepository
         $originName = $upFile->getClientOriginalName();  // 原始文件名
         // 文件扩展类型
 //        $ext = strtolower($upFile->getClientOriginalExtension());
-        $ext = Asset::model()->getImageExt($upFile->getPathname());
+        $ext = SysAsset::model()->getImageExt($upFile->getPathname());
 
         $size = (int)$upFile->getClientSize();
 
         $path = $this->prefix . '/' . date('Y') . '/' . date('m');
 
-        $saveDir = Asset::model()->checkDir(Env::fileDir($this->prefix) . $path);
+        $saveDir = SysAsset::model()->checkDir(Env::fileDir($this->prefix) . $path);
 
-        $name = Asset::model()->assignFileName() . '.' . $ext;
+        $name = SysAsset::model()->assignFileName() . '.' . $ext;
 
         // 判断阿里云OSS是否开启
         if (Env::isAliyunOssUsable()) {
@@ -55,7 +55,7 @@ class FileRepository
         // 本地服务器保存文件
         $upFile->move($saveDir, $name);
 
-        Asset::model()->store([
+        SysAsset::model()->store([
             'md5' => $md5,
             'ext' => $ext,
             'path' => $path,
@@ -84,14 +84,14 @@ class FileRepository
             throw new XClientException('上传错误', 400);
         }
 
-        $ext = Asset::model()->getExtensionFromMime($matches[1]);
+        $ext = SysAsset::model()->getExtensionFromMime($matches[1]);
         if (is_null($ext)) {
             throw new XClientException('不支持的文件类型', 400);
         }
 
-        $tmpSaveDir = Asset::model()->checkDir(Env::fileDir($this->prefix) . $this->prefix . '/tmp');
+        $tmpSaveDir = SysAsset::model()->checkDir(Env::fileDir($this->prefix) . $this->prefix . '/tmp');
 
-        $name = Asset::model()->assignFileName() . '.' . $ext;
+        $name = SysAsset::model()->assignFileName() . '.' . $ext;
 
         $tmpFile = $tmpSaveDir . '/' . $name;
 
@@ -111,7 +111,7 @@ class FileRepository
 
         $path = $this->prefix . '/' . date('Y') . '/' . date('m');
 
-        $saveDir = Asset::model()->checkDir(Env::fileDir($this->prefix) . $path);
+        $saveDir = SysAsset::model()->checkDir(Env::fileDir($this->prefix) . $path);
 
         // 判断阿里云OSS是否开启
         if (Env::isAliyunOssUsable()) {
@@ -124,7 +124,7 @@ class FileRepository
         // 本地服务器保存文件
         $sfyFile->move($saveDir, $name);
 
-        Asset::model()->store([
+        SysAsset::model()->store([
             'md5' => $md5,
             'ext' => $ext,
             'path' => $path,

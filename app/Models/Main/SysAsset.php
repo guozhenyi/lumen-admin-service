@@ -4,10 +4,10 @@ namespace App\Models\Main;
 
 use App\Models\Util;
 
-class Asset extends Base
+class SysAsset extends Base
 {
 
-    protected $table = 'asset';
+    protected $table = 'sys_asset';
 
 
     /**

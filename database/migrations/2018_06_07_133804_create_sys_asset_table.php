@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAssetTable extends Migration
+class CreateSysAssetTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateAssetTable extends Migration
      */
     public function up()
     {
-        Schema::create('asset', function (Blueprint $table) {
+        Schema::create('sys_asset', function (Blueprint $table) {
             $table->comment = '资源';
             $table->charset = 'utf8mb4';
             $table->collation = 'utf8mb4_general_ci';
@@ -42,6 +42,6 @@ class CreateAssetTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('asset');
+        Schema::dropIfExists('sys_asset');
     }
 }
