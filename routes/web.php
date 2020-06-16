@@ -36,4 +36,16 @@ $router->group(['namespace' => 'Auth', 'middleware' => 'auth.must'], function ()
     $router->post('v1/signOut', 'AuthController@signOut');  // 注销
 });
 
+// 系统设置
+$router->group(['namespace' => 'SysSet', 'middleware' => 'auth.must'], function () use ($router) {
+    $router->get('v1/menu/index', 'MenuController@index');    // 菜单列表
+    $router->post('v1/menu/post', 'MenuController@store');     // 菜单新增
+    $router->put('v1/menu/update', 'MenuController@update');   // 菜单修改
+    $router->delete('v1/menu/delete', 'MenuController@destroy'); // 菜单删除
+    $router->get('v1/menu/parent/index', 'MenuController@parent');   // 获得父级菜单列表
+    $router->get('v1/menu/sibling/index', 'MenuController@sibling');   // 获得同级菜单列表
+
+});
+
+
 

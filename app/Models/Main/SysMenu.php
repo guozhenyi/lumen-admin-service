@@ -76,6 +76,20 @@ class SysMenu extends Base
     }
 
 
+    public function getById($menu_id)
+    {
+        $obj = $this->getQuery()
+            ->where('id', $menu_id)
+            ->first();
+
+        if (is_null($obj)) {
+            throw new XClientException('菜单不存在');
+        }
+
+        return $obj;
+    }
+
+
     public function getMenuOrNotById($menu_id)
     {
         $obj = $this->getQuery()
@@ -194,7 +208,7 @@ class SysMenu extends Base
         $menu1 = [
             'id' => 1,
             'parent_id' => 0,
-            'name' => '设置',
+            'name' => '系统设置',
             'type' => 1,
             'route_api' => '',
             'route_web' => '',
