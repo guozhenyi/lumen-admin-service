@@ -3,17 +3,13 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use App\Models\Redis;
+use App\Models\Util;
 use Illuminate\Http\Request;
+use App\Models\Main\SysToken;
+use App\Services\JwtService;
 use App\Services\UserService;
 use App\Exceptions\XTokenExpiredException;
-
-//use App\Models\Base;
-//use App\Models\Redis;
-//use App\Models\Main\SysToken;
-//use App\Services\JwtService;
-//use Illuminate\Http\Request;
-//use App\Exceptions\XTokenExpiredException;
-
 
 class MustAuthMiddleware
 {
@@ -43,7 +39,7 @@ class MustAuthMiddleware
      *
      * @var array
      */
-    protected $whiteRouteListEx = [
+    protected $routeWhiteListEx = [
         'v1/channel',
     ];
 
@@ -69,7 +65,7 @@ class MustAuthMiddleware
 
         // 定义常量：用户ID
         if (defined('X_TOKEN')) {
-            $payload = UserService::instance()->getPayloadByToken(X_TOKEN, true);
+            $payload = UserService::instance()->getPayloadByToken(X_TOKEN);
 
 //            JwtService::instance()->verifyPayload($payload);
 
@@ -86,9 +82,9 @@ class MustAuthMiddleware
 
     protected function checkSingleDeviceLogin($user_id, $device, $timeout = 3600, $cache = true)
     {
-        $redis = Base::model()->redis();
+        $redis = Util::redis();
 
-        $cache_key = Redis::model()->keyUserIdToDevice($user_id);
+        $cache_key = Redis::keyUserIdToDevice($user_id);
 
         if ($cache && $redis->exists($cache_key) && $device != $redis->get($cache_key)) {
             throw new XTokenExpiredException();
