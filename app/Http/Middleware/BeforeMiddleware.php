@@ -80,14 +80,14 @@ class BeforeMiddleware
         }
 
         // 判断token黑名单机制
-//        if (defined('X_TOKEN')) {
-//            if (SysTokenBlacklist::model()->checkTokenExist($token)) {
-//                $obj = SysTokenBlacklist::model()->getTokenOrNot($token);
-//                if ($obj !== false && time() > $obj->expires_at) {
-//                    throw new XTokenExpiredException('The token has been blacklisted');
-//                }
-//            }
-//        }
+        if (defined('X_TOKEN')) {
+            if (SysTokenBlacklist::model()->checkTokenExist($token)) {
+                $obj = SysTokenBlacklist::model()->getTokenOrNot($token);
+                if ($obj !== false && time() > $obj->expires_at) {
+                    throw new XTokenExpiredException('The token has been blacklisted');
+                }
+            }
+        }
 
         return $next($request);
     }
